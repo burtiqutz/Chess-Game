@@ -75,7 +75,7 @@ public class ChessTable {
     public Piece getPiece(int x, int y){
         return chessTable[x][y];
     }
-    //we should use FEN notation but i don't feel like doing that again
+    // Should swap to FEN
     public void showTable() {
         System.out.println("0 1 2 3 4 5 6 7  ");
         for (int i = 0; i < 8; ++i) {

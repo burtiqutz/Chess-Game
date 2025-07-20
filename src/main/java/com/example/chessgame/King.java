@@ -1,43 +1,34 @@
 package com.example.chessgame;
 
-import java.util.Objects;
-
 public class King extends Piece {
 
     public King(String color, int x, int y) {
         super(color, x, y);
-        super.setType('X');
+        super.setType('K');
     }
 
+    @Override
     public boolean isValidMove(ChessTable chessTable, int newX, int newY) {
+        int dx = Math.abs(newX - this.getX());
+        int dy = Math.abs(newY - this.getY());
 
-        // Check if path is clear
-        if (isPathClear(newX, newY, chessTable)) {
+        if (newX < 0 || newX > 7 || newY < 0 || newY > 7)
+            return false;
+
+        // King moves only one square in any direction
+        if (dx <= 1 && dy <= 1 && (dx + dy) > 0) {
             Piece dest = chessTable.getPiece(newX, newY);
-            //king can move 1 up 1 down 1 left or 1 right
-            if (!(Math.abs(newX - this.getX()) > 1 || newX == this.getX())) {
+            // Destination must be empty or occupied by opponent
+            if (dest == null || !dest.getColor().equals(this.getColor())) {
                 return true;
             }
-            if (!(Math.abs(newY - this.getY()) > 1 || newY == this.getY())) {
-                return true;
-            }
-            //difference on x + difference on y can't be bigger (or lower) than 1
-            return Math.abs(newX - this.getX()) + Math.abs(newY - this.getY()) == 1;
         }
+
         return false;
     }
 
-    private boolean isPathClear(int x, int y, ChessTable chessTable) {
-        if (x < 0 || x > 7 || y < 0 || y > 7)
-            return false;
-        //If it isn't an open space or piece of opposite color, false
-        return chessTable.getPiece(x, y) == null && !chessTable.getPiece(x, y).getColor().equals(this.getColor());
-    }
     @Override
     public String toString() {
-        if(this.getColor().equals("white")){
-            return "X";
-        } else
-            return "x";
+        return this.getColor().equals("white") ? "K" : "k";
     }
 }
